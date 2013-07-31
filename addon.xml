@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.nfl-videos" version="1.0.0" name="NFL Videos" provider-name="Tenzer">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+        <import addon="xbmc.addon" version="12.0.0"/>
+        <import addon="xbmc.gui" version="4.0.0"/>
+        <import addon="script.module.beautifulsoup" version="3.2.0"/>
+        <import addon="script.module.simplejson" version="2.0.10"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="addon.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">NFL videos</summary>
+        <description lang="en">Videos from the NFL teams' homepages. Highlights, interviews, analytics and cheerleaders.</description>
+        <disclaimer lang="en">Not all teams are supported yet, please help out with adding support for the remaining teams if you can.</disclaimer>
+        <platform>all</platform>
+        <language>en</language>
+        <license>The MIT License (MIT)</license>
+        <forum></forum>
+        <website>https://github.com/Tenzer/plugin.video.nfl-videos</website>
+        <source>https://github.com/Tenzer/plugin.video.nfl-videos</source>
+        <email>xbmc@tenzer.dk</email>
+    </extension>
+</addon>
