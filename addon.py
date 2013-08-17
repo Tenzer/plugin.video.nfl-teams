@@ -2,10 +2,10 @@ import sys
 from urlparse import parse_qs
 
 
-__plugin__ = "NFL Videos"
+__plugin__ = "NFL Teams"
 __author__ = "Jeppe Toustrup"
-__url__ = "https://github.com/Tenzer/plugin.video.nfl-videos"
 __version__ = "1.0.0"
+__url__ = "https://github.com/Tenzer/plugin.video.nfl-teams"
 
 if sys.argv[2]:
     parameters = parse_qs(sys.argv[2].lstrip("?"))

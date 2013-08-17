@@ -11,7 +11,7 @@ class Menu(object):
     _addon_path = None
 
     def __init__(self):
-        addon = xbmcaddon.Addon(id="plugin.video.nfl-videos")
+        addon = xbmcaddon.Addon(id="plugin.video.nfl-teams")
         self._addon_path = addon.getAddonInfo("path")
 
     def add_sort_method(self, sort_method="none"):
