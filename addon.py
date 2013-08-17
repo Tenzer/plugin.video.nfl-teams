@@ -4,8 +4,8 @@ from urlparse import parse_qs
 
 __plugin__ = "NFL Teams"
 __author__ = "Jeppe Toustrup"
-__version__ = "1.0.0"
 __url__ = "https://github.com/Tenzer/plugin.video.nfl-teams"
+__version__ = "1.0.1"
 
 if sys.argv[2]:
     parameters = parse_qs(sys.argv[2].lstrip("?"))
