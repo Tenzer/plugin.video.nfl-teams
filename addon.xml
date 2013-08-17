@@ -13,11 +13,10 @@
     <extension point="xbmc.addon.metadata">
         <summary lang="en">NFL teams videos</summary>
         <description lang="en">Videos from the NFL teams' homepages. Highlights, interviews, analytics and cheerleaders.</description>
-        <disclaimer lang="en">Not all teams are supported yet, please help out with adding support for the remaining teams if you can.</disclaimer>
         <platform>all</platform>
         <language>en</language>
         <license>The MIT License (MIT)</license>
-        <forum></forum>
+        <forum>http://forum.xbmc.org/showthread.php?tid=170281</forum>
         <website>https://github.com/Tenzer/plugin.video.nfl-teams</website>
         <source>https://github.com/Tenzer/plugin.video.nfl-teams</source>
         <email>xbmc@tenzer.dk</email>

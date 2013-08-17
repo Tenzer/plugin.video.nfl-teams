@@ -1,4 +1,4 @@
 plugin.video.nfl-teams
 =======================
 
-XBMC addon for showing NFL videos
+XBMC addon showing videos from NFL teams
