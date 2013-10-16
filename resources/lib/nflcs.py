@@ -4,6 +4,13 @@ import resources.lib.menu
 import simplejson
 import xbmc
 import xbmcgui
+import xbmcaddon
+
+
+__settings__ = xbmcaddon.Addon(id='plugin.video.nfl-teams')
+__bitrate__ = int(__settings__.getSetting("bitrate"))
+
+bitrate_ranges = [(2000001,50000000),(1000001,2000000),(0,1000000)]
 
 class NFLCS(object):
     _short = str(None)
@@ -36,8 +43,10 @@ class NFLCS(object):
         remotehost = json["cdnData"]["streamingRemoteHost"]
         path = str(None)
         bitrate = -1
+        bitrate_low =  bitrate_ranges[__bitrate__][0]
+        bitrate_high = bitrate_ranges[__bitrate__][1]
         for path_entry in json["cdnData"]["bitrateInfo"]:
-            if path_entry["rate"] > bitrate:
+            if path_entry["rate"] > bitrate and path_entry["rate"] in range(bitrate_low,bitrate_high):
                 path = path_entry["path"]
                 bitrate = path_entry["rate"]
 
