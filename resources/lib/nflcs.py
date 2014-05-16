@@ -12,6 +12,7 @@ class NFLCS(object):
     _cdaweb_url = str(None)
     _categories = list()
     _categories_strip_left = [
+        "Pandora ",
         "Video - ",
         "Videos - ",
     ]
