@@ -1,7 +1,7 @@
 import urllib
 import urllib2
 import resources.lib.menu
-import simplejson
+from json import load
 import xbmc
 import xbmcgui
 
@@ -29,7 +29,7 @@ class NFLCS(object):
         data = urllib.urlencode(get_parameters)
         request = urllib2.Request(self._cdaweb_url + "audio-video-content.htm", data)
         response = urllib2.urlopen(request)
-        json = simplejson.load(response, "iso-8859-1")
+        json = load(response, "iso-8859-1")
         title = json["headline"]
         thumbnail = json["imagePaths"]["xl"]
 
@@ -57,7 +57,7 @@ class NFLCS(object):
         data = urllib.urlencode(parameters)
         request = urllib2.Request(self._cdaweb_url + "audio-video-channel.htm", data)
         response = urllib2.urlopen(request)
-        json = simplejson.load(response, "iso-8859-1")
+        json = load(response, "iso-8859-1")
 
         menu = resources.lib.menu.Menu()
         menu.add_sort_method("none")
