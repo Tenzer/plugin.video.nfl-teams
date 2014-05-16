@@ -92,12 +92,14 @@ class NFLCS(object):
             thumbnail="resources/images/%s.png" % self._short
         )
         for category in self._categories:
+            raw_category = category
+
             for strip_left in self._categories_strip_left:
                 if category.startswith(strip_left):
                     category = category[(len(strip_left)):]
 
             menu.add_item(
-                url_params={"team": self._short, "category": category},
+                url_params={"team": self._short, "category": raw_category},
                 name=category,
                 folder=True,
                 thumbnail="resources/images/%s.png" % self._short
