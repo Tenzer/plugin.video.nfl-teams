@@ -34,6 +34,8 @@ class NFLCS(object):
         thumbnail = json["imagePaths"]["xl"]
 
         remotehost = json["cdnData"]["streamingRemoteHost"]
+        if "a.video.nfl.com" in remotehost:
+            remotehost = remotehost.replace("a.video.nfl.com", "vod.hstream.video.nfl.com")
         path = str(None)
         bitrate = -1
         for path_entry in json["cdnData"]["bitrateInfo"]:
