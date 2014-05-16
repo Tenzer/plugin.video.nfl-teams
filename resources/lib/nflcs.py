@@ -3,6 +3,7 @@ import urllib2
 import resources.lib.menu
 from json import load
 import xbmc
+import xbmcaddon
 import xbmcgui
 
 class NFLCS(object):
@@ -36,12 +37,20 @@ class NFLCS(object):
         remotehost = json["cdnData"]["streamingRemoteHost"]
         if 'a.video.nfl.com' in remotehost:
             remotehost = remotehost.replace('a.video.nfl.com', 'vod.hstream.video.nfl.com')
-        path = str(None)
+
+        max_bitrate = int(xbmcaddon.Addon(id="plugin.video.nfl-teams").getSetting("max_bitrate")) * 1000000 or 5000000
         bitrate = -1
+        lowest_bitrate = None
         for path_entry in json["cdnData"]["bitrateInfo"]:
-            if path_entry["rate"] > bitrate:
+            if path_entry["rate"] > bitrate and path_entry["rate"] <= max_bitrate:
                 path = path_entry["path"]
                 bitrate = path_entry["rate"]
+            if not lowest_bitrate or path_entry["rate"] < lowest_bitrate:
+                lowest_path = path_entry["path"]
+                lowest_bitrate = path_entry["rate"]
+
+        if not path:
+            path = lowest_path
 
         if not path.startswith("http://"):
             path = remotehost + path + "?r=&fp=&v=&g="
