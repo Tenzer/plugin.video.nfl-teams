@@ -72,14 +72,15 @@ class NFLCS(object):
         json = load(response, "iso-8859-1")
 
         menu = resources.lib.menu.Menu()
-        menu.add_sort_method("none")
+        menu.add_sort_method("date")
         menu.add_sort_method("alpha")
         for video in json["gallery"]["clips"]:
             menu.add_item(
                 url_params={"team": self._short, "id": video["id"]},
                 name=video["title"],
                 folder=False,
-                thumbnail=video["thumb"]
+                thumbnail=video["thumb"],
+                raw_metadata=video
             )
         menu.end_directory()
 
