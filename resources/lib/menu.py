@@ -54,14 +54,3 @@ class Menu(object):
 
     def end_directory(self):
         xbmcplugin.endOfDirectory(self._handle)
-
-    def dialog_ok(self, header, line1, line2=None, line3=None):
-        dialog = xbmcgui.Dialog()
-        if not line2 and not line3:
-            return dialog.ok(header, line1)
-        elif line2 and not line3:
-            return dialog.ok(header, line1, line2)
-        elif not line2 and line3:
-            return dialog.ok(header, line1, line3)
-        elif line2 and line3:
-            return dialog.ok(header, line1, line2, line3)
