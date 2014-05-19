@@ -1,3 +1,6 @@
+[B]Version 1.1.1 - 2014-05-19[/B]
+- Tweaked dependencies so they are compatible with both Frodo and Gotham.
+
 [B]Version 1.1.0 - 2014-05-17[/B]
 - Made addon compatible with XBMC Gotham.
 - Fixed playback issue with videos from central NFL site.
