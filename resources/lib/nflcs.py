@@ -1,6 +1,7 @@
 import urllib
 import urllib2
 from json import load
+from os import path
 
 import xbmc
 import xbmcaddon
@@ -10,7 +11,6 @@ from resources.lib.menu import Menu
 
 class NFLCS(object):
     _short = str(None)
-    _fanart = str(None)
     _cdaweb_url = str(None)
     _categories = list()
     _categories_strip_left = [
@@ -89,7 +89,7 @@ class NFLCS(object):
                 "url_params": {"team": self._short, "category": "all"},
                 "name": "All Videos",
                 "folder": True,
-                "thumbnail": "resources/images/{0}.png".format(self._short)
+                "thumbnail": path.join("resources", "images", "{0}.png".format(self._short))
             })
             for category in self._categories:
                 raw_category = category
@@ -102,5 +102,5 @@ class NFLCS(object):
                     "url_params": {"team": self._short, "category": raw_category},
                     "name": category,
                     "folder": True,
-                    "thumbnail": "resources/images/{0}.png".format(self._short)
+                    "thumbnail": path.join("resources", "images", "{0}.png".format(self._short))
                 })

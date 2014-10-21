@@ -1,8 +1,8 @@
 import json
-import os
 import sys
 import time
 from datetime import datetime
+from os import path
 
 import xbmcaddon
 import xbmcgui
@@ -33,21 +33,17 @@ class Menu(object):
     def add_item(self, item):
         url = "{0}?{1}".format(self._plugin_url, json.dumps(item.get("url_params")))
 
-        fanart = item.get("fanart")
-        if not fanart:
-            fanart = os.path.join(self._addon_path, "resources", "images", "fanart", "{0}.jpg".format(item.get("url_params")["team"]))
-
-        thumbnail = item.get("thumbnail")
-        if not thumbnail.startswith("http://"):
-            thumbnail = os.path.join(self._addon_path, thumbnail)
 
         listitem = xbmcgui.ListItem()
         listitem.setLabel(item.get("name"))
 
-        if thumbnail:
-            listitem.setThumbnailImage(thumbnail)
-        if fanart:
-            listitem.setProperty("fanart_image", fanart)
+        thumbnail = item.get("thumbnail")
+        if thumbnail.startswith("resources"):
+            thumbnail = path.join(self._addon_path, thumbnail)
+        listitem.setThumbnailImage(thumbnail)
+
+        fanart = path.join(self._addon_path, "resources", "images", "fanart", "{0}.jpg".format(item.get("url_params")["team"]))
+        listitem.setProperty("fanart_image", fanart)
 
         info = {"title": item.get("name")}
 

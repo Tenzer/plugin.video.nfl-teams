@@ -1,3 +1,5 @@
+from os import path
+
 from resources.lib.menu import Menu
 
 
@@ -46,5 +48,5 @@ class Default(object):
                     "url_params": {"team": team["short"]},
                     "name": team["long"],
                     "folder": True,
-                    "thumbnail": "resources/images/{0}.png".format(team["short"])
+                    "thumbnail": path.join("resources", "images", "{0}.png".format(team["short"]))
                 })
