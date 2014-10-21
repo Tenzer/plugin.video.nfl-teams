@@ -1,7 +1,8 @@
 import os
 import sys
-from datetime import datetime
 import time
+from datetime import datetime
+
 import xbmcaddon
 import xbmcgui
 import xbmcplugin
@@ -25,7 +26,7 @@ class Menu(object):
         elif sort_method == "date":
             xbmcplugin.addSortMethod(self._handle, xbmcplugin.SORT_METHOD_DATE)
 
-    def add_item(self, url_params, name, folder=False, thumbnail=None, fanart=None, raw_metadata={}):
+    def add_item(self, url_params, name, folder=False, thumbnail=None, fanart=None, raw_metadata=None):
         params = ["?"]
         for key, value in url_params.iteritems():
             params.append("%s=%s&" % (str(key), str(value)))
@@ -61,7 +62,8 @@ class Menu(object):
         else:
             xbmcplugin.addDirectoryItem(self._handle, url, item)
 
-    def parse_video_date(self, date_string):
+    @classmethod
+    def parse_video_date(cls, date_string):
         if date_string:
             try:
                 return datetime.strptime(date_string, "%m/%d/%Y %H:%M:%S")

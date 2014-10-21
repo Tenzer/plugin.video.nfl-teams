@@ -1,10 +1,12 @@
 import urllib
 import urllib2
-import resources.lib.menu
 from json import load
+
+import resources.lib.menu
 import xbmc
 import xbmcaddon
 import xbmcgui
+
 
 class NFLCS(object):
     _short = str(None)

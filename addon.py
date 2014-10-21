@@ -1,7 +1,6 @@
 import sys
 from urlparse import parse_qs
 
-
 __plugin__ = "NFL Teams"
 __author__ = "Jeppe Toustrup"
 __url__ = "https://github.com/Tenzer/plugin.video.nfl-teams"
