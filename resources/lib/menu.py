@@ -14,7 +14,7 @@ class Menu(object):
     _addon_path = None
 
     def __init__(self, sort_methods=[]):
-        addon = xbmcaddon.Addon(id="plugin.video.nfl-teams")
+        addon = xbmcaddon.Addon("plugin.video.nfl-teams")
         self._addon_path = addon.getAddonInfo("path")
 
         for method in sort_methods:
@@ -29,41 +29,43 @@ class Menu(object):
         elif sort_method == "date":
             xbmcplugin.addSortMethod(self._handle, xbmcplugin.SORT_METHOD_DATE)
 
-    def add_item(self, url_params, name, folder=False, thumbnail=None, fanart=None, raw_metadata=None):
+    def add_item(self, item):
         params = ["?"]
-        for key, value in url_params.iteritems():
+        fanart = item.get("fanart")
+        for key, value in item.get("url_params").iteritems():
             params.append("{0}={1}&".format(str(key), str(value)))
             if key is "team" and not fanart:
                 fanart = os.path.join(self._addon_path, "resources", "images", "fanart", "{0}.jpg".format(value))
 
         url = "{0}{1}".format(self._plugin_url, "".join(params))
 
+        thumbnail = item.get("thumbnail")
         if not thumbnail.startswith("http://"):
             thumbnail = os.path.join(self._addon_path, thumbnail)
 
-        item = xbmcgui.ListItem()
-        item.setLabel(name)
+        listitem = xbmcgui.ListItem()
+        listitem.setLabel(item.get("name"))
 
         if thumbnail:
-            item.setThumbnailImage(thumbnail)
+            listitem.setThumbnailImage(thumbnail)
         if fanart:
-            item.setProperty("fanart_image", fanart)
+            listitem.setProperty("fanart_image", fanart)
 
-        info = {"title": name}
+        info = {"title": item.get("name")}
 
-        if raw_metadata:
-            info["plot"] = raw_metadata["description"]
-            date = self.parse_video_date(raw_metadata["date"])
+        if item.get("raw_metadata"):
+            info["plot"] = item.get("raw_metadata").get("description", "No description was given for the video.")
+            date = self.parse_video_date(item.get("raw_metadata").get("date"))
             if date:
                 info["date"] = date.strftime("%d.%m.%Y")
                 info["plot"] = "Added on {0}.\n{1}".format(date.strftime("%c"), info["plot"])
 
-        item.setInfo("video", info)
+        listitem.setInfo("video", info)
 
-        if folder:
-            xbmcplugin.addDirectoryItem(self._handle, url, item, isFolder=folder)
+        if item.get("folder"):
+            xbmcplugin.addDirectoryItem(self._handle, url, listitem, isFolder=item.get("folder"))
         else:
-            xbmcplugin.addDirectoryItem(self._handle, url, item)
+            xbmcplugin.addDirectoryItem(self._handle, url, listitem)
 
     @classmethod
     def parse_video_date(cls, date_string):
@@ -71,6 +73,7 @@ class Menu(object):
             try:
                 return datetime.strptime(date_string, "%m/%d/%Y %H:%M:%S")
             except TypeError:
+                # Workaround for bug in XBMC: http://forum.xbmc.org/showthread.php?tid=112916
                 return datetime.fromtimestamp(time.mktime(time.strptime(date_string, "%m/%d/%Y %H:%M:%S")))
         else:
             return None

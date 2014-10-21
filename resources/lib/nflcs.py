@@ -41,7 +41,7 @@ class NFLCS(object):
         if "a.video.nfl.com" in remotehost:
             remotehost = remotehost.replace("a.video.nfl.com", "vod.hstream.video.nfl.com")
 
-        max_bitrate = int(xbmcaddon.Addon(id="plugin.video.nfl-teams").getSetting("max_bitrate")) * 1000000 or 5000000
+        max_bitrate = int(xbmcaddon.Addon("plugin.video.nfl-teams").getSetting("max_bitrate")) * 1000000 or 5000000
         bitrate = -1
         lowest_bitrate = None
         for path_entry in json["cdnData"]["bitrateInfo"]:
@@ -75,22 +75,22 @@ class NFLCS(object):
 
         with Menu(["date", "alpha"]) as menu:
             for video in json["gallery"]["clips"]:
-                menu.add_item(
-                    url_params={"team": self._short, "id": video["id"]},
-                    name=video["title"],
-                    folder=False,
-                    thumbnail=video["thumb"],
-                    raw_metadata=video
-                )
+                menu.add_item({
+                    "url_params": {"team": self._short, "id": video["id"]},
+                    "name": video["title"],
+                    "folder": False,
+                    "thumbnail": video["thumb"],
+                    "raw_metadata": video
+                })
 
     def list_categories(self):
         with Menu(["none"]) as menu:
-            menu.add_item(
-                url_params={"team": self._short, "category": "all"},
-                name="All Videos",
-                folder=True,
-                thumbnail="resources/images/{0}.png".format(self._short)
-            )
+            menu.add_item({
+                "url_params": {"team": self._short, "category": "all"},
+                "name": "All Videos",
+                "folder": True,
+                "thumbnail": "resources/images/{0}.png".format(self._short)
+            })
             for category in self._categories:
                 raw_category = category
 
@@ -98,9 +98,9 @@ class NFLCS(object):
                     if category.startswith(strip_left):
                         category = category[(len(strip_left)):]
 
-                menu.add_item(
-                    url_params={"team": self._short, "category": raw_category},
-                    name=category,
-                    folder=True,
-                    thumbnail="resources/images/{0}.png".format(self._short)
-                )
+                menu.add_item({
+                    "url_params": {"team": self._short, "category": raw_category},
+                    "name": category,
+                    "folder": True,
+                    "thumbnail": "resources/images/{0}.png".format(self._short)
+                })

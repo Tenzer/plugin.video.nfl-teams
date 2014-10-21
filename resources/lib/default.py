@@ -42,9 +42,9 @@ class Default(object):
     def __init__(self):
         with Menu(["none"]) as menu:
             for team in self._teams:
-                menu.add_item(
-                    url_params={"team": team["short"]},
-                    name=team["long"],
-                    folder=True,
-                    thumbnail="resources/images/{0}.png".format(team["short"])
-                )
+                menu.add_item({
+                    "url_params": {"team": team["short"]},
+                    "name": team["long"],
+                    "folder": True,
+                    "thumbnail": "resources/images/{0}.png".format(team["short"])
+                })
