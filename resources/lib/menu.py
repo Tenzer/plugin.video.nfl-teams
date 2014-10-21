@@ -75,12 +75,12 @@ class Menu(object):
         else:
             return None
 
-    def end_directory(self):
+    def _end_directory(self):
         xbmcplugin.endOfDirectory(self._handle)
 
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.end_directory()
+        self._end_directory()
         return False
