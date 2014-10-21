@@ -2,10 +2,10 @@ import urllib
 import urllib2
 from json import load
 
-import resources.lib.menu
 import xbmc
 import xbmcaddon
 import xbmcgui
+from resources.lib.menu import Menu
 
 
 class NFLCS(object):
@@ -73,39 +73,34 @@ class NFLCS(object):
         response = urllib2.urlopen(request)
         json = load(response, "iso-8859-1")
 
-        menu = resources.lib.menu.Menu()
-        menu.add_sort_method("date")
-        menu.add_sort_method("alpha")
-        for video in json["gallery"]["clips"]:
-            menu.add_item(
-                url_params={"team": self._short, "id": video["id"]},
-                name=video["title"],
-                folder=False,
-                thumbnail=video["thumb"],
-                raw_metadata=video
-            )
-        menu.end_directory()
+        with Menu(["date", "alpha"]) as menu:
+            for video in json["gallery"]["clips"]:
+                menu.add_item(
+                    url_params={"team": self._short, "id": video["id"]},
+                    name=video["title"],
+                    folder=False,
+                    thumbnail=video["thumb"],
+                    raw_metadata=video
+                )
 
     def list_categories(self):
-        menu = resources.lib.menu.Menu()
-        menu.add_sort_method("none")
-        menu.add_item(
-            url_params={"team": self._short, "category": "all"},
-            name="All Videos",
-            folder=True,
-            thumbnail="resources/images/%s.png" % self._short
-        )
-        for category in self._categories:
-            raw_category = category
-
-            for strip_left in self._categories_strip_left:
-                if category.startswith(strip_left):
-                    category = category[(len(strip_left)):]
-
+        with Menu(["none"]) as menu:
             menu.add_item(
-                url_params={"team": self._short, "category": raw_category},
-                name=category,
+                url_params={"team": self._short, "category": "all"},
+                name="All Videos",
                 folder=True,
                 thumbnail="resources/images/%s.png" % self._short
             )
-        menu.end_directory()
+            for category in self._categories:
+                raw_category = category
+
+                for strip_left in self._categories_strip_left:
+                    if category.startswith(strip_left):
+                        category = category[(len(strip_left)):]
+
+                menu.add_item(
+                    url_params={"team": self._short, "category": raw_category},
+                    name=category,
+                    folder=True,
+                    thumbnail="resources/images/%s.png" % self._short
+                )

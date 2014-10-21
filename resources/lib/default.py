@@ -1,4 +1,4 @@
-import resources.lib.menu
+from resources.lib.menu import Menu
 
 
 class Default(object):
@@ -40,21 +40,19 @@ class Default(object):
     ]
 
     def __init__(self):
-        menu = resources.lib.menu.Menu()
-        menu.add_sort_method("none")
-        for team in self._teams:
-            if "disabled" in team:
-                menu.add_item(
-                    url_params={"team": team["short"]},
-                    name=team["long"],
-                    folder=False,
-                    thumbnail="resources/images/%s.png" % team["short"]
-                )
-            else:
-                menu.add_item(
-                    url_params={"team": team["short"]},
-                    name=team["long"],
-                    folder=True,
-                    thumbnail="resources/images/%s.png" % team["short"]
-                )
-        menu.end_directory()
+        with Menu(["none"]) as menu:
+            for team in self._teams:
+                if "disabled" in team:
+                    menu.add_item(
+                        url_params={"team": team["short"]},
+                        name=team["long"],
+                        folder=False,
+                        thumbnail="resources/images/%s.png" % team["short"]
+                    )
+                else:
+                    menu.add_item(
+                        url_params={"team": team["short"]},
+                        name=team["long"],
+                        folder=True,
+                        thumbnail="resources/images/%s.png" % team["short"]
+                    )

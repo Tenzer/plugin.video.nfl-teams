@@ -13,11 +13,14 @@ class Menu(object):
     _handle = int(sys.argv[1])
     _addon_path = None
 
-    def __init__(self):
+    def __init__(self, sort_methods=[]):
         addon = xbmcaddon.Addon(id="plugin.video.nfl-teams")
         self._addon_path = addon.getAddonInfo("path")
 
-    def add_sort_method(self, sort_method="none"):
+        for method in sort_methods:
+            self._add_sort_method(method)
+
+    def _add_sort_method(self, sort_method="none"):
         if sort_method == "none":
             xbmcplugin.addSortMethod(self._handle, xbmcplugin.SORT_METHOD_NONE)
         elif sort_method == "alpha":
@@ -74,3 +77,10 @@ class Menu(object):
 
     def end_directory(self):
         xbmcplugin.endOfDirectory(self._handle)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.end_directory()
+        return False
