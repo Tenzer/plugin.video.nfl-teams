@@ -31,7 +31,7 @@ class NFLCS(object):
     def play_video(self):
         get_parameters = {"id": self._parameters["id"][0]}
         data = urllib.urlencode(get_parameters)
-        request = urllib2.Request(self._cdaweb_url + "audio-video-content.htm", data)
+        request = urllib2.Request("{0}audio-video-content.htm".format(self._cdaweb_url), data)
         response = urllib2.urlopen(request)
         json = load(response, "iso-8859-1")
         title = json["headline"]
@@ -56,7 +56,7 @@ class NFLCS(object):
             path = lowest_path
 
         if not path.startswith("http://"):
-            path = remotehost + path + "?r=&fp=&v=&g="
+            path = "{0}{1}?r=&fp=&v=&g=".format(remotehost, path)
 
         listitem = xbmcgui.ListItem(title, thumbnailImage=thumbnail)
         listitem.setProperty("PlayPath", path)
@@ -69,7 +69,7 @@ class NFLCS(object):
             parameters = {"type": "VIDEO", "channelKey": self._parameters["category"][0]}
 
         data = urllib.urlencode(parameters)
-        request = urllib2.Request(self._cdaweb_url + "audio-video-channel.htm", data)
+        request = urllib2.Request("{0}audio-video-channel.htm".format(self._cdaweb_url), data)
         response = urllib2.urlopen(request)
         json = load(response, "iso-8859-1")
 
@@ -89,7 +89,7 @@ class NFLCS(object):
                 url_params={"team": self._short, "category": "all"},
                 name="All Videos",
                 folder=True,
-                thumbnail="resources/images/%s.png" % self._short
+                thumbnail="resources/images/{0}.png".format(self._short)
             )
             for category in self._categories:
                 raw_category = category
@@ -102,5 +102,5 @@ class NFLCS(object):
                     url_params={"team": self._short, "category": raw_category},
                     name=category,
                     folder=True,
-                    thumbnail="resources/images/%s.png" % self._short
+                    thumbnail="resources/images/{0}.png".format(self._short)
                 )

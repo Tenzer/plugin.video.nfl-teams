@@ -46,5 +46,5 @@ class Default(object):
                     url_params={"team": team["short"]},
                     name=team["long"],
                     folder=True,
-                    thumbnail="resources/images/%s.png" % team["short"]
+                    thumbnail="resources/images/{0}.png".format(team["short"])
                 )

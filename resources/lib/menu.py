@@ -32,11 +32,11 @@ class Menu(object):
     def add_item(self, url_params, name, folder=False, thumbnail=None, fanart=None, raw_metadata=None):
         params = ["?"]
         for key, value in url_params.iteritems():
-            params.append("%s=%s&" % (str(key), str(value)))
+            params.append("{0}={1}&".format(str(key), str(value)))
             if key is "team" and not fanart:
-                fanart = os.path.join(self._addon_path, "resources", "images", "fanart", value + ".jpg")
+                fanart = os.path.join(self._addon_path, "resources", "images", "fanart", "{0}.jpg".format(value))
 
-        url = self._plugin_url + "".join(params)
+        url = "{0}{1}".format(self._plugin_url, "".join(params))
 
         if not thumbnail.startswith("http://"):
             thumbnail = os.path.join(self._addon_path, thumbnail)
