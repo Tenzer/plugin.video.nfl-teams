@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 import time
@@ -30,14 +31,11 @@ class Menu(object):
             xbmcplugin.addSortMethod(self._handle, xbmcplugin.SORT_METHOD_DATE)
 
     def add_item(self, item):
-        params = ["?"]
-        fanart = item.get("fanart")
-        for key, value in item.get("url_params").iteritems():
-            params.append("{0}={1}&".format(str(key), str(value)))
-            if key is "team" and not fanart:
-                fanart = os.path.join(self._addon_path, "resources", "images", "fanart", "{0}.jpg".format(value))
+        url = "{0}?{1}".format(self._plugin_url, json.dumps(item.get("url_params")))
 
-        url = "{0}{1}".format(self._plugin_url, "".join(params))
+        fanart = item.get("fanart")
+        if not fanart:
+            fanart = os.path.join(self._addon_path, "resources", "images", "fanart", "{0}.jpg".format(item.get("url_params")["team"]))
 
         thumbnail = item.get("thumbnail")
         if not thumbnail.startswith("http://"):

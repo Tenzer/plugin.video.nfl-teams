@@ -29,7 +29,7 @@ class NFLCS(object):
             self.list_categories()
 
     def play_video(self):
-        get_parameters = {"id": self._parameters["id"][0]}
+        get_parameters = {"id": self._parameters["id"]}
         data = urllib.urlencode(get_parameters)
         request = urllib2.Request("{0}audio-video-content.htm".format(self._cdaweb_url), data)
         response = urllib2.urlopen(request)
@@ -63,10 +63,10 @@ class NFLCS(object):
         xbmc.Player().play(path, listitem)
 
     def list_videos(self):
-        if self._parameters["category"][0] == "all":
+        if self._parameters["category"] == "all":
             parameters = {"type": "VIDEO", "channelKey": ""}
         else:
-            parameters = {"type": "VIDEO", "channelKey": self._parameters["category"][0]}
+            parameters = {"type": "VIDEO", "channelKey": self._parameters["category"]}
 
         data = urllib.urlencode(parameters)
         request = urllib2.Request("{0}audio-video-channel.htm".format(self._cdaweb_url), data)
