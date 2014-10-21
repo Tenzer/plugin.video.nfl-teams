@@ -14,7 +14,7 @@ class Menu(object):
     _handle = int(sys.argv[1])
     _addon_path = None
 
-    def __init__(self, sort_methods=[]):
+    def __init__(self, sort_methods):
         addon = xbmcaddon.Addon("plugin.video.nfl-teams")
         self._addon_path = addon.getAddonInfo("path")
 
@@ -31,9 +31,6 @@ class Menu(object):
             xbmcplugin.addSortMethod(self._handle, xbmcplugin.SORT_METHOD_DATE)
 
     def add_item(self, item):
-        url = "{0}?{1}".format(self._plugin_url, json.dumps(item.get("url_params")))
-
-
         listitem = xbmcgui.ListItem()
         listitem.setLabel(item.get("name"))
 
@@ -56,6 +53,7 @@ class Menu(object):
 
         listitem.setInfo("video", info)
 
+        url = "{0}?{1}".format(self._plugin_url, json.dumps(item.get("url_params")))
         if item.get("folder"):
             xbmcplugin.addDirectoryItem(self._handle, url, listitem, isFolder=item.get("folder"))
         else:
