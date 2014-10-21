@@ -1,8 +1,6 @@
-import urllib
-import urllib2
-from json import load
 from os import path
 
+import requests
 import xbmc
 import xbmcaddon
 import xbmcgui
@@ -29,38 +27,37 @@ class NFLCS(object):
             self.list_categories()
 
     def play_video(self):
-        get_parameters = {"id": self._parameters["id"]}
-        data = urllib.urlencode(get_parameters)
-        request = urllib2.Request("{0}audio-video-content.htm".format(self._cdaweb_url), data)
-        response = urllib2.urlopen(request)
-        json = load(response, "iso-8859-1")
-        title = json["headline"]
-        thumbnail = json["imagePaths"]["xl"]
+        parameters = {"id": self._parameters["id"]}
+        response = requests.get("{0}audio-video-content.htm".format(self._cdaweb_url), params=parameters)
+        data = response.json()
 
-        remotehost = json["cdnData"]["streamingRemoteHost"]
-        if "a.video.nfl.com" in remotehost:
-            remotehost = remotehost.replace("a.video.nfl.com", "vod.hstream.video.nfl.com")
+        title = data["headline"]
+        thumbnail = data["imagePaths"]["xl"]
+        remotehost = data["cdnData"]["streamingRemoteHost"].replace("a.video.nfl.com", "vod.hstream.video.nfl.com")
+        video_path = self._get_path_to_video(data["cdnData"]["bitrateInfo"])
 
+        if not video_path.startswith("http://"):
+            video_path = "{0}{1}?r=&fp=&v=&g=".format(remotehost, video_path)
+
+        listitem = xbmcgui.ListItem(title, thumbnailImage=thumbnail)
+        listitem.setProperty("PlayPath", video_path)
+        xbmc.Player().play(video_path, listitem)
+
+    @classmethod
+    def _get_path_to_video(cls, videos):
         max_bitrate = int(xbmcaddon.Addon("plugin.video.nfl-teams").getSetting("max_bitrate")) * 1000000 or 5000000
         bitrate = -1
         lowest_bitrate = None
-        for path_entry in json["cdnData"]["bitrateInfo"]:
-            if path_entry["rate"] > bitrate and path_entry["rate"] <= max_bitrate:
-                path = path_entry["path"]
-                bitrate = path_entry["rate"]
-            if not lowest_bitrate or path_entry["rate"] < lowest_bitrate:
-                lowest_path = path_entry["path"]
-                lowest_bitrate = path_entry["rate"]
 
-        if not path:
-            path = lowest_path
+        for video in videos:
+            if video["rate"] > bitrate and video["rate"] <= max_bitrate:
+                best_video = video["path"]
+                bitrate = video["rate"]
+            if not lowest_bitrate or video["rate"] < lowest_bitrate:
+                lowest_video = video["path"]
+                lowest_bitrate = video["rate"]
 
-        if not path.startswith("http://"):
-            path = "{0}{1}?r=&fp=&v=&g=".format(remotehost, path)
-
-        listitem = xbmcgui.ListItem(title, thumbnailImage=thumbnail)
-        listitem.setProperty("PlayPath", path)
-        xbmc.Player().play(path, listitem)
+        return best_video or lowest_video
 
     def list_videos(self):
         if self._parameters["category"] == "all":
@@ -68,13 +65,11 @@ class NFLCS(object):
         else:
             parameters = {"type": "VIDEO", "channelKey": self._parameters["category"]}
 
-        data = urllib.urlencode(parameters)
-        request = urllib2.Request("{0}audio-video-channel.htm".format(self._cdaweb_url), data)
-        response = urllib2.urlopen(request)
-        json = load(response, "iso-8859-1")
+        response = requests.get("{0}audio-video-channel.htm".format(self._cdaweb_url), params=parameters)
+        data = response.json()
 
         with Menu(["date", "alpha"]) as menu:
-            for video in json["gallery"]["clips"]:
+            for video in data["gallery"]["clips"]:
                 menu.add_item({
                     "url_params": {"team": self._short, "id": video["id"]},
                     "name": video["title"],
