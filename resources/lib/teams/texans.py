@@ -8,7 +8,7 @@ class Team(resources.lib.nflcs.NFLCS):
     _categories = [
         "Cheerleaders",
         "Community",
-        # "Español",  # TODO: Does currently not return any videos. Most likely an encoding issue
+        # "Español",  # Does not return any videos, neither in Kodi or on the website
         "Football",
         "Friday Facebook Mailbag",
         "Gameday",
