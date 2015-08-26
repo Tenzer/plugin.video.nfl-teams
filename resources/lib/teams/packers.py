@@ -16,6 +16,7 @@ class Team(resources.lib.nflcs.NFLCS):
         "NFL Network",
         "Press Conference",
         "Prospect Primer",
+        # "Sights & Sounds",  # TODO: Does currently not return any videos. Most likely an encoding issue
         "Tailgate Tour",
         "The McCarren Report",
         "Training Camp",
