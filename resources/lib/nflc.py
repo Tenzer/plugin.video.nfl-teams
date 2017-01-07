@@ -76,6 +76,7 @@ class NFLC(object):
                     "name": html_parser.unescape(video["title"]),
                     "folder": False,
                     "thumbnail": "{0}{1}".format(self._website_url, video["thumbnail"]),
+                    "raw_metadata": video
                 })
 
     def list_categories(self):
