@@ -82,7 +82,7 @@ class NFLCS(object):
         with Menu(["none"]) as menu:
             menu.add_item({
                 "url_params": {"team": self._short, "category": "all"},
-                "name": "All Videos",
+                "name": "[B]All Videos[/B]",
                 "folder": True,
                 "thumbnail": path.join("resources", "images", "{0}.png".format(self._short))
             })
