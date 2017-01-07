@@ -45,7 +45,7 @@ class Menu(object):
         info = {"title": item.get("name")}
 
         if item.get("raw_metadata"):
-            info["plot"] = item.get("raw_metadata").get("description", "No description was given for the video.")
+            info["plot"] = item.get("raw_metadata").get("description", "No description was given for the video.").encode("utf-8")
             date = self.parse_video_date(item.get("raw_metadata").get("date"))
             if date:
                 info["date"] = date.strftime("%d.%m.%Y")

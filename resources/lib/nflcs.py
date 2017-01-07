@@ -72,7 +72,7 @@ class NFLCS(object):
             for video in data["gallery"]["clips"]:
                 menu.add_item({
                     "url_params": {"team": self._short, "id": video["id"]},
-                    "name": video["title"],
+                    "name": video["title"].encode("utf-8"),
                     "folder": False,
                     "thumbnail": video["thumb"],
                     "raw_metadata": video
