@@ -3,7 +3,7 @@ import resources.lib.nflcs
 
 class Team(resources.lib.nflcs.NFLCS):
     _short = "rams"
-    _cdaweb_url = "http://www.stlouisrams.com/cda-web/"
+    _cdaweb_url = "http://www.therams.com/cda-web/"
     _categories = [
         "Video - Celebrities",
         "Video - Cheerleaders",
