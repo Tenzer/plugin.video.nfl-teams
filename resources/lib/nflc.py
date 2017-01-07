@@ -62,8 +62,15 @@ class NFLC(object):
         data = response.json()
         html_parser = HTMLParser()
 
+        videos = list()
+        if self._parameters["category"] == "all":
+            for category in data.itervalues():
+                videos.extend(category["data"])
+        else:
+            videos = data[str(self._parameters["category"])]["data"]
+
         with Menu(["none"]) as menu:
-            for video in data[str(self._parameters["category"])]["data"]:
+            for video in videos:
                 menu.add_item({
                     "url_params": {"team": self._short, "id": video["video_id"]},
                     "name": html_parser.unescape(video["title"]),
@@ -73,6 +80,12 @@ class NFLC(object):
 
     def list_categories(self):
         with Menu(["none"]) as menu:
+            menu.add_item({
+                "url_params": {"team": self._short, "category": "all"},
+                "name": "[B]All Videos[/B]",
+                "folder": True,
+                "thumbnail": path.join("resources", "images", "{0}.png".format(self._short))
+            })
             for category_id, category_name in self._categories:
                 menu.add_item({
                     "url_params": {"team": self._short, "category": category_id},
