@@ -3,6 +3,7 @@ import sys
 import time
 from datetime import datetime
 from os import path
+from urllib import quote
 
 import xbmcaddon
 import xbmcgui
@@ -53,7 +54,7 @@ class Menu(object):
 
         listitem.setInfo("video", info)
 
-        url = "{0}?{1}".format(self._plugin_url, json.dumps(item.get("url_params")))
+        url = "{0}?{1}".format(self._plugin_url, quote(json.dumps(item.get("url_params"))))
         if item.get("folder"):
             xbmcplugin.addDirectoryItem(self._handle, url, listitem, isFolder=item.get("folder"))
         else:
