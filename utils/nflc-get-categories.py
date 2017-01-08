@@ -19,11 +19,10 @@ def main():
     result = {}
     strip_left = [
         'Podcast - ',
-        'Video - Show - ',
-        'Video - Shows - ',
         'Video - ',
-        'Videos - Show - ',
         'Videos - ',
+        'Show - ',
+        'Shows - ',
     ]
 
     for category_id, category in data.items():
@@ -34,7 +33,7 @@ def main():
 
         result[name.strip()] = category_id
 
-    for category_name in sorted(result):
+    for category_name in sorted(result, key=str.lower):
         print('({}, "{}"),'.format(result[category_name], category_name))
 
 
