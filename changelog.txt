@@ -1,3 +1,6 @@
+[B]Version 1.3.1 - 2017-01-08[/B]
+- Relax dependency version on script.common.plugin.cache to be better compatible with older Kodi versions.
+
 [B]Version 1.3.0 - 2017-01-08[/B]
 - Fixed bugs related to non-ASCII characters in video titles and descriptions.
 - Renamed St. Louis Rams to Los Angeles Rams.
