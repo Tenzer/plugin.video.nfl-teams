@@ -84,7 +84,7 @@ class NFLC(object):
         else:
             videos = data[str(self._parameters["category"])]["data"]
 
-        with Menu(["none"]) as menu:
+        with Menu(["date", "alpha"]) as menu:
             for video in videos:
                 menu.add_item({
                     "url_params": {"team": self._short, "id": video["video_id"]},
