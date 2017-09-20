@@ -47,7 +47,7 @@ class NFLC(object):
 
         title = data["headline"]
         thumbnail = data["imagePaths"]["l"]
-        remotehost = data["cdnData"]["streamingRemoteHost"]
+        remotehost = data["cdnData"]["streamingRemoteHost"].replace("a.video.nfl.com", "vod.hstream.video.nfl.com")
         video_path = self._get_path_to_video(data["cdnData"]["bitrateInfo"])
 
         if not video_path.startswith("http://"):
